@@ -1,4 +1,4 @@
-package dev.stocky37.epic7;
+package dev.stocky37.epic7.client;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 

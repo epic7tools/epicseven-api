@@ -17,7 +17,6 @@ public class HeroTransform implements Function<JsonObject, JsonObject> {
 
   @Override
   public JsonObject apply(JsonObject original) {
-    System.out.println(original.toString());
     return Json.createObjectBuilder(original)
         .add("id", original.getJsonString("fileId"))
         .remove("_id")

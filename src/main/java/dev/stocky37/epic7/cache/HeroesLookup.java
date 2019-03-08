@@ -1,6 +1,6 @@
 package dev.stocky37.epic7.cache;
 
-import dev.stocky37.epic7.EpicSevenDbApi;
+import dev.stocky37.epic7.client.EpicSevenDbApi;
 import dev.stocky37.epic7.json.HeroTransform;
 import dev.stocky37.epic7.json.Unwrapper;
 import org.eclipse.microprofile.rest.client.inject.RestClient;

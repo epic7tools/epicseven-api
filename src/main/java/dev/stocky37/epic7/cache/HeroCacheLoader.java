@@ -1,7 +1,7 @@
 package dev.stocky37.epic7.cache;
 
 import com.github.benmanes.caffeine.cache.CacheLoader;
-import dev.stocky37.epic7.EpicSevenDbApi;
+import dev.stocky37.epic7.client.EpicSevenDbApi;
 import dev.stocky37.epic7.json.HeroTransform;
 import dev.stocky37.epic7.json.Unwrapper;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -22,7 +22,6 @@ public class HeroCacheLoader implements CacheLoader<String, JsonObject> {
 	@Nullable
 	@Override
 	public JsonObject load(@NonNull String id) {
-		System.err.println(String.format("Loading %s from source...", id));
 		return new Unwrapper()
 				.andThen(arr -> arr.getJsonObject(0))
 				.andThen(HeroTransform.getInstance())
