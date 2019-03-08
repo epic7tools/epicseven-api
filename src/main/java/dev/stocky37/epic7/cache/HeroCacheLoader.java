@@ -22,7 +22,7 @@ public class HeroCacheLoader implements CacheLoader<String, JsonObject> {
 	@Nullable
 	@Override
 	public JsonObject load(@NonNull String id) {
-		System.err.println("Loading from source...");
+		System.err.println(String.format("Loading %s from source...", id));
 		return new Unwrapper()
 				.andThen(arr -> arr.getJsonObject(0))
 				.andThen(HeroTransform.getInstance())

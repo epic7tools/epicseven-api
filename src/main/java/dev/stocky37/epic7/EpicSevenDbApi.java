@@ -11,12 +11,17 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/")
 @RegisterRestClient
+@Produces(MediaType.APPLICATION_JSON)
 @SuppressWarnings("CdiManagedBeanInconsistencyInspection")
 public interface EpicSevenDbApi {
 
+
+	@GET
+	@Path("/hero")
+	JsonObject getHeroes();
+
 	@GET
 	@Path("/hero/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
 	JsonObject getHero(@PathParam("id") String id);
 }
 
