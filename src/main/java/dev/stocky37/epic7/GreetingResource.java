@@ -1,5 +1,7 @@
 package dev.stocky37.epic7;
 
+import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
+import com.github.benmanes.caffeine.cache.CacheLoader;
 import dev.stocky37.epic7.json.HeroTransform;
 import dev.stocky37.epic7.json.Unwrapper;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -15,18 +17,13 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/")
 public class GreetingResource {
-
 	@Inject
-	@RestClient
-	EpicSevenDbApi api;
+	AsyncLoadingCache<String, JsonObject> cache;
 
 	@GET
 	@Path("heroes/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public JsonObject hello(@PathParam("id") String id) {
-		return new Unwrapper()
-				.andThen(arr -> arr.getJsonObject(0))
-				.andThen(HeroTransform.getInstance())
-				.apply(api.getHero(id));
+		return cache.synchronous().get(id);
 	}
 }
