@@ -1,4 +1,4 @@
-package org.acme.quickstart;
+package dev.stocky37.epic7;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;

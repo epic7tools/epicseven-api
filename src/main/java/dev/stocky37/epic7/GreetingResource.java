@@ -1,4 +1,4 @@
-package org.acme.quickstart;
+package dev.stocky37.epic7;
 
 import javax.json.Json;
 import javax.json.JsonObject;
