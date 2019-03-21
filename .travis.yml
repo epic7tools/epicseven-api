@@ -1,1 +1,7 @@
 language: java
+deploy:
+  provider: script
+  script: mvn heroku:deploy
+  skip_cleanup: true
+  on:
+    all_branches: true
