@@ -29,3 +29,4 @@ public class ProxyResource {
 		return service.getHero(id);
 	}
 }
+
