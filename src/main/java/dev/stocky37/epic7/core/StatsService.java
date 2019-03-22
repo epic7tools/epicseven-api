@@ -13,8 +13,7 @@ public class StatsService {
 	HeroService heroService;
 
 	public CalculateStatsOutput calculate(CalculateStatsInput input) {
-		System.err.println(input);
-		System.out.println(heroService.getHeroStats(input.getHero()));
+		heroService.getAwakenedStats(input.getHero(), 0, 0, 0);
 		return null;
 	}
 }

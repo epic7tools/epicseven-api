@@ -5,24 +5,24 @@ import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import dev.stocky37.epic7.core.GearSet;
-import dev.stocky37.epic7.core.Stat;
+import dev.stocky37.epic7.core.StatType;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
 public class CalculateStatsOutput {
-	private final Map<Stat, BigDecimal> stats;
+	private final Map<StatType, BigDecimal> stats;
 	private final Iterable<GearSet> activeGearSets;
 
 	public CalculateStatsOutput(
-			Map<Stat, BigDecimal> stats,
+			Map<StatType, BigDecimal> stats,
 			Iterable<GearSet> activeGearSets
 	) {
 		this.stats = ImmutableMap.copyOf(stats);
 		this.activeGearSets = Iterables.unmodifiableIterable(activeGearSets);
 	}
 
-	public Map<Stat, BigDecimal> getStats() {
+	public Map<StatType, BigDecimal> getStats() {
 		return stats;
 	}
 

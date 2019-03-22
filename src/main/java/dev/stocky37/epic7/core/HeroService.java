@@ -35,11 +35,7 @@ public class HeroService {
 		return heroCache.synchronous().get(id);
 	}
 
-	public Map<Stat, BigDecimal> getHeroStats(final String id) {
-		final HeroFacade hero = new HeroFacade(getHero(id));
-
-		System.out.println(hero.getBaseStats(6, 60));
-
-		return ImmutableMap.of();
+	public Map<StatType, BigDecimal> getAwakenedStats(final String id, int stars, int level, int awakening) {
+		return new HeroJsonWrapper(getHero(id), stars, level, awakening).getAwakenedBaseStats();
 	}
 }

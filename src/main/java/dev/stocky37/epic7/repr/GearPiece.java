@@ -11,10 +11,10 @@ import java.util.List;
 
 public class GearPiece {
 	private final GearSet set;
-	private final List<StatLine> stats;
+	private final List<StatValue> stats;
 
 	@JsonbCreator
-	public GearPiece(@JsonbProperty("set") GearSet set, @JsonbProperty("stats") List<StatLine> stats) {
+	public GearPiece(@JsonbProperty("set") GearSet set, @JsonbProperty("stats") List<StatValue> stats) {
 		this.set = set;
 		this.stats = ImmutableList.copyOf(stats);
 	}
@@ -23,7 +23,7 @@ public class GearPiece {
 		return set;
 	}
 
-	public List<StatLine> getStats() {
+	public List<StatValue> getStats() {
 		return stats;
 	}
 

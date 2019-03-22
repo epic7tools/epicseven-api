@@ -7,10 +7,10 @@ import java.util.function.Function;
 
 public class HeroTransform implements Function<JsonObject, JsonObject> {
 
-  private static HeroTransform ourInstance = new HeroTransform();
+  private static HeroTransform instance = new HeroTransform();
 
   public static HeroTransform getInstance() {
-    return ourInstance;
+    return instance;
   }
 
   private HeroTransform() {}
