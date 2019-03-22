@@ -1,4 +1,4 @@
-package dev.stocky37.epic7.service;
+package dev.stocky37.epic7.core;
 
 import com.github.benmanes.caffeine.cache.AsyncCache;
 import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
