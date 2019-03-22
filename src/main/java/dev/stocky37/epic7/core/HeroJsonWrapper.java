@@ -74,21 +74,18 @@ public class HeroJsonWrapper {
 		return ImmutableMap.copyOf(newBaseStats);
 	}
 
-	private static Map<StatType, BigDecimal> calculateStats(
-		Map<StatType, BigDecimal> baseStats,
-		Iterable<StatValue> statModifiers
-	) {
+	public Map<StatType, BigDecimal> calculateStats(Map<StatType, BigDecimal> statModifiers) {
+		final Map<StatType, BigDecimal> baseStats = getAwakenedBaseStats();
 		final Map<StatType, BigDecimal> stats = Maps.newEnumMap(baseStats);
 
-		statModifiers.forEach(mod -> {
-			final BigDecimal existingValue = stats.get(mod.getStat());
-			final StatType stat = mod.getStat().getBaseStatType();
+		statModifiers.forEach((stat, value) -> {
+			final StatType baseStat = stat.getBaseStatType();
 
 			// stat has no other base stat, just add on to the existing value
-			if(stat == mod.getStat()) {
-				stats.put(stat, existingValue.add(mod.getValue()));
+			if(baseStat == stat) {
+				stats.merge(baseStat, value, BigDecimal::add);
 			} else {
-				stats.put(stat, existingValue.add(baseStats.get(stat).multiply(mod.getValue())));
+				stats.merge(baseStat, baseStats.get(baseStat).multiply(value), BigDecimal::add);
 			}
 		});
 

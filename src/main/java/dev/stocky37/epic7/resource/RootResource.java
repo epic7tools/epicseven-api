@@ -9,17 +9,8 @@ public class RootResource {
 	@Inject
 	HeroesResource heroesResource;
 
-	@Inject
-	StatsResource statsResource;
-
-
 	@Path("heroes")
 	public HeroesResource heroes() {
 		return heroesResource;
-	}
-
-	@Path("stats")
-	public StatsResource stats() {
-		return statsResource;
 	}
 }

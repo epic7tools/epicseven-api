@@ -2,6 +2,7 @@ package dev.stocky37.epic7.resource;
 
 import dev.stocky37.epic7.core.HeroService;
 import dev.stocky37.epic7.json.StatsJsonTransform;
+import dev.stocky37.epic7.repr.EquipInput;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,6 +12,7 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -43,5 +45,11 @@ public class HeroesResource {
 		@QueryParam("awakening") @DefaultValue("0") int awakening
 	) {
 		return StatsJsonTransform.getInstance().apply(service.getAwakenedStats(id, stars, level, awakening));
+	}
+
+	@POST
+	@Path("{id}/equip")
+	public JsonObject equipHero(@PathParam("id") String id, EquipInput input) {
+		return service.equipHero(id, input);
 	}
 }

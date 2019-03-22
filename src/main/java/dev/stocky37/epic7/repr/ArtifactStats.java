@@ -2,21 +2,21 @@ package dev.stocky37.epic7.repr;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import dev.stocky37.epic7.core.StatType;
+import com.google.common.collect.ImmutableList;
 
 import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
 import java.util.List;
 
 public class ArtifactStats {
-	private final List<StatType> stats;
+	private final List<StatValue> stats;
 
 	@JsonbCreator
-	public ArtifactStats(@JsonbProperty("stats") List<StatType> stats) {
-		this.stats = stats;
+	public ArtifactStats(@JsonbProperty("stats") StatValue[] stats) {
+		this.stats = ImmutableList.copyOf(stats);
 	}
 
-	public List<StatType> getStats() {
+	public List<StatValue> getStats() {
 		return stats;
 	}
 

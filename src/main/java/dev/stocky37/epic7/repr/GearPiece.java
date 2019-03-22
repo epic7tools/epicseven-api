@@ -14,7 +14,7 @@ public class GearPiece {
 	private final List<StatValue> stats;
 
 	@JsonbCreator
-	public GearPiece(@JsonbProperty("set") GearSet set, @JsonbProperty("stats") List<StatValue> stats) {
+	public GearPiece(@JsonbProperty("set") GearSet set, @JsonbProperty("stats") StatValue[] stats) {
 		this.set = set;
 		this.stats = ImmutableList.copyOf(stats);
 	}
