@@ -6,14 +6,14 @@ import dev.stocky37.epic7.core.Stat;
 
 import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
+import java.math.BigDecimal;
 
 public class StatLine {
-
 	private final Stat stat;
-	private final int value;
+	private final BigDecimal value;
 
 	@JsonbCreator
-	public StatLine(@JsonbProperty("stat") Stat stat, @JsonbProperty("value") int value) {
+	public StatLine(@JsonbProperty("stat") Stat stat, @JsonbProperty("value") BigDecimal value) {
 		this.stat = stat;
 		this.value = value;
 	}
@@ -22,7 +22,7 @@ public class StatLine {
 		return stat;
 	}
 
-	public int getValue() {
+	public BigDecimal getValue() {
 		return value;
 	}
 
@@ -36,11 +36,15 @@ public class StatLine {
 
 	@Override
 	public boolean equals(Object o) {
-		if(this == o) return true;
-		if(o == null || getClass() != o.getClass()) return false;
+		if(this == o) {
+			return true;
+		}
+		if(!(o instanceof StatLine)) {
+			return false;
+		}
 		StatLine statLine = (StatLine) o;
-		return value == statLine.value &&
-				stat == statLine.stat;
+		return stat == statLine.stat &&
+				Objects.equal(value, statLine.value);
 	}
 
 	@Override

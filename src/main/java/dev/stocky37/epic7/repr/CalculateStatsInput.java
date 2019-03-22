@@ -3,11 +3,13 @@ package dev.stocky37.epic7.repr;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
+import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
 
 public class CalculateStatsInput {
 	private final String hero;
 	private final int level;
+	private final int stars;
 	private final int awakening;
 	private final ArtifactStats artifact;
 	private final GearPiece weapon;
@@ -17,9 +19,11 @@ public class CalculateStatsInput {
 	private final GearPiece ring;
 	private final GearPiece boots;
 
+	@JsonbCreator
 	public CalculateStatsInput(
 			@JsonbProperty("hero") String hero,
 			@JsonbProperty("level") int level,
+			@JsonbProperty("stars") int stars,
 			@JsonbProperty("awakening") int awakening,
 			@JsonbProperty("artifact") ArtifactStats artifact,
 			@JsonbProperty("weapon") GearPiece weapon,
@@ -31,6 +35,7 @@ public class CalculateStatsInput {
 	) {
 		this.hero = hero;
 		this.level = level;
+		this.stars = stars;
 		this.awakening = awakening;
 		this.artifact = artifact;
 		this.weapon = weapon;
@@ -47,6 +52,10 @@ public class CalculateStatsInput {
 
 	public int getLevel() {
 		return level;
+	}
+
+	public int getStars() {
+		return stars;
 	}
 
 	public int getAwakening() {
@@ -82,17 +91,36 @@ public class CalculateStatsInput {
 	}
 
 	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(this)
+				.add("hero", hero)
+				.add("level", level)
+				.add("stars", stars)
+				.add("awakening", awakening)
+				.add("artifact", artifact)
+				.add("weapon", weapon)
+				.add("helmet", helmet)
+				.add("armour", armour)
+				.add("necklace", necklace)
+				.add("ring", ring)
+				.add("boots", boots)
+				.toString();
+	}
+
+	@Override
 	public boolean equals(Object o) {
 		if(this == o) {
 			return true;
 		}
-		if(o == null || getClass() != o.getClass()) {
+		if(!(o instanceof CalculateStatsInput)) {
 			return false;
 		}
 		CalculateStatsInput that = (CalculateStatsInput) o;
 		return level == that.level &&
+				stars == that.stars &&
 				awakening == that.awakening &&
 				Objects.equal(hero, that.hero) &&
+				Objects.equal(artifact, that.artifact) &&
 				Objects.equal(weapon, that.weapon) &&
 				Objects.equal(helmet, that.helmet) &&
 				Objects.equal(armour, that.armour) &&
@@ -103,21 +131,6 @@ public class CalculateStatsInput {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(hero, level, awakening, weapon, helmet, armour, necklace, ring, boots);
-	}
-
-	@Override
-	public String toString() {
-		return MoreObjects.toStringHelper(this)
-				.add("hero", hero)
-				.add("level", level)
-				.add("awakening", awakening)
-				.add("weapon", weapon)
-				.add("helmet", helmet)
-				.add("armour", armour)
-				.add("necklace", necklace)
-				.add("ring", ring)
-				.add("boots", boots)
-				.toString();
+		return Objects.hashCode(hero, level, stars, awakening, artifact, weapon, helmet, armour, necklace, ring, boots);
 	}
 }
