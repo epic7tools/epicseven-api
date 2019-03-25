@@ -4,21 +4,18 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static dev.stocky37.epic7.core.StatType.ATK;
-import static dev.stocky37.epic7.core.StatType.ATK_PERC;
-import static dev.stocky37.epic7.core.StatType.CA;
-import static dev.stocky37.epic7.core.StatType.CHC;
-import static dev.stocky37.epic7.core.StatType.CHD;
-import static dev.stocky37.epic7.core.StatType.DAC;
-import static dev.stocky37.epic7.core.StatType.DEF;
-import static dev.stocky37.epic7.core.StatType.DEF_PERC;
-import static dev.stocky37.epic7.core.StatType.DMG;
-import static dev.stocky37.epic7.core.StatType.EFF;
-import static dev.stocky37.epic7.core.StatType.EFR;
-import static dev.stocky37.epic7.core.StatType.HP_PERC;
-import static dev.stocky37.epic7.core.StatType.LS;
-import static dev.stocky37.epic7.core.StatType.SPD;
-import static dev.stocky37.epic7.core.StatType.SPD_PERC;
+import static dev.stocky37.epic7.core.Stat.ATK_PERC;
+import static dev.stocky37.epic7.core.Stat.CA;
+import static dev.stocky37.epic7.core.Stat.CHC;
+import static dev.stocky37.epic7.core.Stat.CHD;
+import static dev.stocky37.epic7.core.Stat.DAC;
+import static dev.stocky37.epic7.core.Stat.DEF_PERC;
+import static dev.stocky37.epic7.core.Stat.DMG;
+import static dev.stocky37.epic7.core.Stat.EFF;
+import static dev.stocky37.epic7.core.Stat.EFR;
+import static dev.stocky37.epic7.core.Stat.HP_PERC;
+import static dev.stocky37.epic7.core.Stat.LS;
+import static dev.stocky37.epic7.core.Stat.SPD_PERC;
 
 public enum GearSet {
 	ATTACK("attack", "Attack Set", ATK_PERC, new BigDecimal("0.35"), 4),
@@ -37,11 +34,11 @@ public enum GearSet {
 
 	private final String id;
 	private final String name;
-	private final StatType stat;
+	private final Stat stat;
 	private final BigDecimal value;
 	private final int amountForSet;
 
-	GearSet(String id, String name, StatType stat, BigDecimal value, int amountForSet) {
+	GearSet(String id, String name, Stat stat, BigDecimal value, int amountForSet) {
 		this.id = id;
 		this.name = name;
 		this.stat = stat;
@@ -57,7 +54,7 @@ public enum GearSet {
 		return name;
 	}
 
-	public Optional<StatType> getStat() {
+	public Optional<Stat> getStat() {
 		return Optional.ofNullable(stat);
 	}
 

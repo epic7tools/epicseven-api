@@ -2,23 +2,23 @@ package dev.stocky37.epic7.repr;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import dev.stocky37.epic7.core.StatType;
+import dev.stocky37.epic7.core.Stat;
 
 import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
 import java.math.BigDecimal;
 
 public class StatValue {
-	private final StatType stat;
+	private final Stat stat;
 	private final BigDecimal value;
 
 	@JsonbCreator
-	public StatValue(@JsonbProperty("stat") StatType stat, @JsonbProperty("value") BigDecimal value) {
+	public StatValue(@JsonbProperty("stat") Stat stat, @JsonbProperty("value") BigDecimal value) {
 		this.stat = stat;
 		this.value = value;
 	}
 
-	public StatType getStat() {
+	public Stat getStat() {
 		return stat;
 	}
 

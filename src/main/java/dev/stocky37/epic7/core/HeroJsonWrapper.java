@@ -4,7 +4,6 @@ import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import dev.stocky37.epic7.repr.StatValue;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -27,12 +26,12 @@ public class HeroJsonWrapper {
 	}
 
 
-	public Map<StatType, BigDecimal> getBaseStats() {
-		final Map<StatType, BigDecimal> stats = Maps.newEnumMap(StatType.class);
+	public Map<Stat, BigDecimal> getBaseStats() {
+		final Map<Stat, BigDecimal> stats = Maps.newEnumMap(Stat.class);
 		final JsonObject baseStats = getBaseStatObj(stars, level);
 		baseStats.forEach((key, value) -> {
 			if(!key.equalsIgnoreCase("cp")) {
-				final StatType stat = StatType.fromId(key);
+				final Stat stat = Stat.fromId(key);
 				final BigDecimal num = new BigDecimal(value.toString());
 				stats.put(stat, num);
 			}
@@ -48,16 +47,16 @@ public class HeroJsonWrapper {
 			.collect(Collectors.toList()));
 	}
 
-	public Map<StatType, BigDecimal> getAwakenedBaseStats() {
-		final Map<StatType, BigDecimal> baseStats = getBaseStats();
-		final Map<StatType, BigDecimal> newBaseStats = Maps.newEnumMap(baseStats);
+	public Map<Stat, BigDecimal> getAwakenedBaseStats() {
+		final Map<Stat, BigDecimal> baseStats = getBaseStats();
+		final Map<Stat, BigDecimal> newBaseStats = Maps.newEnumMap(baseStats);
 		final Collection<JsonObject> awakenings = getAwakenings();
 		awakenings.forEach(awakening -> awakening.getJsonArray("statsIncrease")
 			.getValuesAs(JsonObject.class)
 			.forEach(increase -> {
 				// get all stat: value key pairs for each statsIncrease array entry
 				increase.forEach((key, node) -> {
-					final StatType stat = StatType.fromId(key);
+					final Stat stat = Stat.fromId(key);
 					final BigDecimal value = new BigDecimal(node.toString());
 
 					// if we are not working with a percentage stat
@@ -74,12 +73,12 @@ public class HeroJsonWrapper {
 		return ImmutableMap.copyOf(newBaseStats);
 	}
 
-	public Map<StatType, BigDecimal> calculateStats(Map<StatType, BigDecimal> statModifiers) {
-		final Map<StatType, BigDecimal> baseStats = getAwakenedBaseStats();
-		final Map<StatType, BigDecimal> stats = Maps.newEnumMap(baseStats);
+	public Map<Stat, BigDecimal> calculateStats(Map<Stat, BigDecimal> statModifiers) {
+		final Map<Stat, BigDecimal> baseStats = getAwakenedBaseStats();
+		final Map<Stat, BigDecimal> stats = Maps.newEnumMap(baseStats);
 
 		statModifiers.forEach((stat, value) -> {
-			final StatType baseStat = stat.getBaseStatType();
+			final Stat baseStat = stat.getBaseStat();
 
 			// stat has no other base stat, just add on to the existing value
 			if(baseStat == stat) {

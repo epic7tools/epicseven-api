@@ -1,21 +1,19 @@
 package dev.stocky37.epic7.repr;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.oracle.svm.core.posix.headers.Stat;
 import dev.stocky37.epic7.core.GearSet;
-import dev.stocky37.epic7.core.StatType;
+import dev.stocky37.epic7.core.Stat;
 
 import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTransient;
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -97,8 +95,8 @@ public class EquipInput {
 	}
 
 	@JsonbTransient
-	public Map<StatType, BigDecimal> getGearStats() {
-		final Map<StatType, BigDecimal> stats = Maps.newEnumMap(StatType.class);
+	public Map<Stat, BigDecimal> getGearStats() {
+		final Map<Stat, BigDecimal> stats = Maps.newEnumMap(Stat.class);
 		final Consumer<StatValue> merge = (stat) -> stats.merge(stat.getStat(), stat.getValue(), BigDecimal::add);
 
 		artifact.getStats().forEach(merge);
@@ -171,17 +169,17 @@ public class EquipInput {
 		return level == that.level &&
 			stars == that.stars &&
 			awakening == that.awakening &&
-			Objects.equal(artifact, that.artifact) &&
-			Objects.equal(weapon, that.weapon) &&
-			Objects.equal(helmet, that.helmet) &&
-			Objects.equal(armour, that.armour) &&
-			Objects.equal(necklace, that.necklace) &&
-			Objects.equal(ring, that.ring) &&
-			Objects.equal(boots, that.boots);
+			artifact.equals(that.artifact) &&
+			weapon.equals(that.weapon) &&
+			helmet.equals(that.helmet) &&
+			armour.equals(that.armour) &&
+			necklace.equals(that.necklace) &&
+			ring.equals(that.ring) &&
+			boots.equals(that.boots);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(level, stars, awakening, artifact, weapon, helmet, armour, necklace, ring, boots);
+		return Objects.hash(level, stars, awakening, artifact, weapon, helmet, armour, necklace, ring, boots);
 	}
 }

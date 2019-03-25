@@ -1,23 +1,19 @@
 package dev.stocky37.epic7.core;
 
-import dev.stocky37.epic7.repr.StatValue;
-
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
-public enum StatType {
+public enum Stat {
 	ATK("atk", "Attack", false, true),
-	ATK_PERC("atk%", "Attack%", true, true, StatType.ATK),
+	ATK_PERC("atk%", "Attack%", true, true, Stat.ATK),
 	HP("hp", "Health", false, true),
-	HP_PERC("hp%", "Health%", true, true, StatType.HP),
+	HP_PERC("hp%", "Health%", true, true, Stat.HP),
 	DEF("def", "Defense", false, true),
-	DEF_PERC("def%", "Defense%", true, true, StatType.DEF),
+	DEF_PERC("def%", "Defense%", true, true, Stat.DEF),
 	SPD("spd", "Speed", false, true),
-	SPD_PERC("spd%", "Speed%", true, true, StatType.SPD),
+	SPD_PERC("spd%", "Speed%", true, true, Stat.SPD),
 	CHC("chc", "Critical Hit Chance", true, true),
 	CHD("chd", "Critical Hit Damage", true, true),
 	EFF("eff", "Effectiveness", true, true),
@@ -32,35 +28,35 @@ public enum StatType {
 	private final String name;
 	private final boolean percentage;
 	private final boolean availableOnGear;
-	private final StatType baseStatType;
+	private final Stat baseStat;
 
-	StatType(String id, String name, boolean percentage, boolean availableOnGear) {
+	Stat(String id, String name, boolean percentage, boolean availableOnGear) {
 		this(id, name, percentage, availableOnGear, null);
 	}
 
-	StatType(String id, String name, boolean percentage, boolean availableOnGear, StatType baseStatType) {
+	Stat(String id, String name, boolean percentage, boolean availableOnGear, Stat baseStat) {
 		this.id = id;
 		this.name = name;
 		this.percentage = percentage;
 		this.availableOnGear = availableOnGear;
-		this.baseStatType = baseStatType;
+		this.baseStat = baseStat;
 	}
 
-	public static List<StatType> getAllBaseStats() {
-		return Arrays.stream(StatType.values())
-				.filter(StatType::isBaseStat)
+	public static List<Stat> getAllBaseStats() {
+		return Arrays.stream(Stat.values())
+				.filter(Stat::isBaseStat)
 				.collect(Collectors.toList());
 	}
 
-	public static List<StatType> getAllGearStats() {
-		return Arrays.stream(StatType.values())
-				.filter(StatType::isAvailableOnGear)
+	public static List<Stat> getAllGearStats() {
+		return Arrays.stream(Stat.values())
+				.filter(Stat::isAvailableOnGear)
 				.collect(Collectors.toList());
 	}
 
 	// todo: if this is slow, change to map impl
-	public static StatType fromId(String str) throws IllegalArgumentException {
-		return Arrays.stream(StatType.values())
+	public static Stat fromId(String str) throws IllegalArgumentException {
+		return Arrays.stream(Stat.values())
 				.filter(stat -> stat.getId().equalsIgnoreCase(str))
 				.findAny()
 				.orElseThrow(IllegalArgumentException::new);
@@ -82,12 +78,12 @@ public enum StatType {
 		return availableOnGear;
 	}
 
-	public StatType getBaseStatType() {
-		return baseStatType == null ? this : baseStatType;
+	public Stat getBaseStat() {
+		return baseStat == null ? this : baseStat;
 	}
 
 	public boolean isBaseStat() {
-		return baseStatType == null;
+		return baseStat == null;
 	}
 }
 
