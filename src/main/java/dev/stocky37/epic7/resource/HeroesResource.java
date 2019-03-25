@@ -52,4 +52,12 @@ public class HeroesResource {
 	public JsonObject equipHero(@PathParam("id") String id, EquipInput input) {
 		return service.equipHero(id, input);
 	}
+
+	@POST
+	@Path("test")
+	public JsonObject test(GearPiece piece) {
+		System.err.println(piece);
+		return Json.createObjectBuilder().build();
+
+	}
 }

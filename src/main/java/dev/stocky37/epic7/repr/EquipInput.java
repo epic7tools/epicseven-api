@@ -46,11 +46,20 @@ public abstract class EquipInput {
 			.build();
 	}
 
-	public abstract int level();
+	@Value.Default
+	public int level() {
+		return 50;
+	}
 
-	public abstract int stars();
+	@Value.Default
+	public int stars() {
+		return 5;
+	}
 
-	public abstract int awakening();
+	@Value.Default
+	public int awakening() {
+		return 0;
+	}
 
 	public abstract ArtifactStats artifact();
 
@@ -104,13 +113,13 @@ public abstract class EquipInput {
 	}
 
 	private List<GearSet> getAllGearSets() {
-		return ImmutableList.<GearSet>builder()
-			.add(weapon().gearSet())
-			.add(helmet().gearSet())
-			.add(armour().gearSet())
-			.add(necklace().gearSet())
-			.add(ring().gearSet())
-			.add(boots().gearSet())
-			.build();
+		ImmutableList.Builder<GearSet> builder = ImmutableList.builder();
+		weapon().gearSet().ifPresent(builder::add);
+		helmet().gearSet().ifPresent(builder::add);
+		armour().gearSet().ifPresent(builder::add);
+		necklace().gearSet().ifPresent(builder::add);
+		ring().gearSet().ifPresent(builder::add);
+		boots().gearSet().ifPresent(builder::add);
+		return builder.build();
 	}
 }

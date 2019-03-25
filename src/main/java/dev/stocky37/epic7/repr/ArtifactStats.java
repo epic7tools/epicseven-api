@@ -1,5 +1,6 @@
 package dev.stocky37.epic7.repr;
 
+import com.google.common.collect.ImmutableList;
 import org.immutables.value.Value;
 
 import javax.json.bind.annotation.JsonbCreator;
@@ -13,5 +14,8 @@ public abstract class ArtifactStats {
 		return ImmutableArtifactStats.builder().addStats(stats).build();
 	}
 
-	public abstract List<StatValue> stats();
+	@Value.Default
+	public List<StatValue> stats() {
+		return ImmutableList.of();
+	}
 }
