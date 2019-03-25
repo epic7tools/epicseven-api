@@ -14,10 +14,10 @@ mavenNode {
 
     mavenCI {
         integrationTestCmd =
-         "mvn org.apache.maven.plugins:maven-failsafe-plugin:integration-calculate \
+         "mvn org.apache.maven.plugins:maven-failsafe-plugin:integration-test \
             org.apache.maven.plugins:maven-failsafe-plugin:verify \
             -Dnamespace.use.current=false -Dnamespace.use.existing=${utils.testNamespace()} \
-            -Dit.calculate=*IT -DfailIfNoTests=false -DenableImageStreamDetection=true \
+            -Dit.test=*IT -DfailIfNoTests=false -DenableImageStreamDetection=true \
             -P openshift-it"
     }
 
