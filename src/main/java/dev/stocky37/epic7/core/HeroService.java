@@ -31,8 +31,6 @@ public class HeroService {
 	@Named("cache.heroes.lookup")
 	Function<String, JsonArray> heroesLookup;
 
-	private final Function<Map<Stat, BigDecimal>, JsonObject> statTransform = StatsJsonTransform.getInstance();
-
 	public JsonArray getHeroes() {
 		return listsCache.synchronous().get("heroes", heroesLookup);
 	}
@@ -59,7 +57,7 @@ public class HeroService {
 	}
 
 	private JsonObject stats(Map<Stat, BigDecimal> stats) {
-		return StatsJsonTransform.getInstance().apply(stats);
+		return StatsJsonTransform.instance().apply(stats);
 	}
 
 	private JsonArray sets(List<GearSet> sets) {

@@ -13,7 +13,7 @@ import java.util.function.Function;
 public class StatsJsonTransform implements Function<Map<Stat, BigDecimal>, JsonObject> {
 	private static StatsJsonTransform instance = new StatsJsonTransform();
 
-	public static StatsJsonTransform getInstance() {
+	public static StatsJsonTransform instance() {
 		return instance;
 	}
 

@@ -13,8 +13,8 @@ import javax.json.bind.annotation.JsonbTransient;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Value.Immutable
@@ -75,18 +75,23 @@ public abstract class EquipInput {
 
 	public abstract GearPiece boots();
 
+
 	@JsonbTransient
 	public Map<Stat, BigDecimal> getGearStats() {
 		final Map<Stat, BigDecimal> stats = Maps.newEnumMap(Stat.class);
-		final Consumer<StatValue> merge = (stat) -> stats.merge(stat.stat(), stat.value(), BigDecimal::add);
 
-		artifact().stats().forEach(merge);
-		weapon().stats().forEach(merge);
-		helmet().stats().forEach(merge);
-		armour().stats().forEach(merge);
-		necklace().stats().forEach(merge);
-		ring().stats().forEach(merge);
-		boots().stats().forEach(merge);
+		stats.putAll(Stream.of(
+			artifact().stats(),
+			weapon().stats(),
+			helmet().stats(),
+			armour().stats(),
+			necklace().stats(),
+			ring().stats(),
+			boots().stats()
+		)
+			.flatMap(map -> map.entrySet().stream())
+			.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, BigDecimal::add)));
+
 
 		//noinspection OptionalGetWithoutIsPresent
 		getCompleteGearSets().stream()

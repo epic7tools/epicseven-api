@@ -1,6 +1,5 @@
 package dev.stocky37.epic7.core;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -100,27 +99,5 @@ public class HeroJsonWrapper {
 			default:
 				throw new IllegalArgumentException();
 		}
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if(this == o) {
-			return true;
-		}
-		if(!(o instanceof HeroJsonWrapper)) {
-			return false;
-		}
-		HeroJsonWrapper that = (HeroJsonWrapper) o;
-		return Objects.equal(json, that.json);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(json);
-	}
-
-	@Override
-	public String toString() {
-		return json.toString();
 	}
 }
