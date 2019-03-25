@@ -53,7 +53,7 @@ public class HeroService {
 			input.awakening()
 		);
 		return Json.createObjectBuilder()
-			.add("stats", stats(input.getGearStats()))
+			.add("stats", stats(hero.calculateStats(input.getGearStats())))
 			.add("gearSets", sets(input.getCompleteGearSets()))
 			.build();
 	}
