@@ -3,13 +3,13 @@ package dev.stocky37.epic7.resource;
 import dev.stocky37.epic7.core.HeroService;
 import dev.stocky37.epic7.json.StatsJsonTransform;
 import dev.stocky37.epic7.repr.EquipInput;
+import dev.stocky37.epic7.repr.GearPiece;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;

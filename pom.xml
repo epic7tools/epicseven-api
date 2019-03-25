@@ -15,6 +15,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <caffeine.version>2.7.0</caffeine.version>
     <guava.version>27.0.1-jre</guava.version>
+    <immutables.version>2.7.4</immutables.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -58,7 +59,12 @@
       <artifactId>guava</artifactId>
       <version>${guava.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.immutables</groupId>
+      <artifactId>value</artifactId>
+      <version>${immutables.version}</version>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>

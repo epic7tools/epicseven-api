@@ -1,55 +1,22 @@
 package dev.stocky37.epic7.repr;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import dev.stocky37.epic7.core.GearSet;
+import org.immutables.value.Value;
 
 import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
 import java.util.List;
 
-public class GearPiece {
-	private final GearSet set;
-	private final List<StatValue> stats;
 
+@Value.Immutable
+public abstract class GearPiece {
 	@JsonbCreator
-	public GearPiece(@JsonbProperty("set") GearSet set, @JsonbProperty("stats") StatValue[] stats) {
-		this.set = set;
-		this.stats = ImmutableList.copyOf(stats);
+	public static GearPiece create(@JsonbProperty("set") GearSet set, @JsonbProperty("stats") StatValue[] stats) {
+		return ImmutableGearPiece.builder().gearSet(set).stats(ImmutableList.copyOf(stats)).build();
 	}
 
-	public GearSet getSet() {
-		return set;
-	}
+	public abstract GearSet gearSet();
 
-	public List<StatValue> getStats() {
-		return stats;
-	}
-
-	@Override
-	public String toString() {
-		return MoreObjects.toStringHelper(this)
-				.add("set", set)
-				.add("stats", stats)
-				.toString();
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if(this == o) {
-			return true;
-		}
-		if(!(o instanceof GearPiece)) {
-			return false;
-		}
-		GearPiece gearPiece = (GearPiece) o;
-		return set == gearPiece.set &&
-				Objects.equal(stats, gearPiece.stats);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(set, stats);
-	}
+	public abstract List<StatValue> stats();
 }

@@ -43,9 +43,9 @@ public class HeroService {
 	public JsonObject equipHero(String id, EquipInput input) {
 		final HeroJsonWrapper hero = new HeroJsonWrapper(
 			getHero(id),
-			input.getStars(),
-			input.getLevel(),
-			input.getAwakening()
+			input.stars(),
+			input.level(),
+			input.awakening()
 		);
 		return StatsJsonTransform.getInstance().apply(hero.calculateStats(input.getGearStats()));
 	}
