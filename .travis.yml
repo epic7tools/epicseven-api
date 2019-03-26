@@ -1,4 +1,7 @@
 language: java
+branches:
+  only:
+    - master
 deploy:
   provider: script
   script: mvn heroku:deploy
