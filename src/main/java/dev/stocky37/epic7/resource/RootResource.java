@@ -22,8 +22,6 @@ public class RootResource {
 	@POST
 	@Path("test")
 	public JsonObject test(EquipInput data) {
-		System.err.println(data);
-		System.err.println(data.getAppliedGearSets());
 		return Json.createObjectBuilder().build();
 	}
 }

@@ -2,8 +2,8 @@ package dev.stocky37.epic7.core;
 
 import com.github.benmanes.caffeine.cache.AsyncCache;
 import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
+import dev.stocky37.epic7.json.EquipInput;
 import dev.stocky37.epic7.json.StatsJsonTransform;
-import dev.stocky37.epic7.repr.EquipInput;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -46,13 +46,13 @@ public class HeroService {
 	public JsonObject equipHero(String id, EquipInput input) {
 		final HeroJsonWrapper hero = new HeroJsonWrapper(
 			getHero(id),
-			input.stars(),
-			input.level(),
-			input.awakening()
+			input.getStars(),
+			input.getLevel(),
+			input.getAwakening()
 		);
 		return Json.createObjectBuilder()
 			.add("stats", stats(hero.calculateStats(input.getGearStats())))
-			.add("gearSets", sets(input.getCompleteGearSets()))
+			.add("gearSets", sets(input.getCompletedGearSets()))
 			.build();
 	}
 

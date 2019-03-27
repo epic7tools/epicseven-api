@@ -2,7 +2,7 @@ package dev.stocky37.epic7.json
 
 import dev.stocky37.epic7.core.GearSet
 import dev.stocky37.epic7.core.Stat
-import dev.stocky37.epic7.util.mergeAll
+import dev.stocky37.epic7.util.mergeStats
 import java.math.BigDecimal
 import javax.json.bind.annotation.JsonbCreator
 import javax.json.bind.annotation.JsonbProperty
@@ -23,49 +23,37 @@ data class EquipInput @JsonbCreator constructor(
 
 	@JsonbTransient
 	fun getGearStats(): Map<Stat, BigDecimal> {
-		var result = mergeAll(
-			{ a, b -> a + b },
+		return mergeStats(
 			artifact.getStatMap(),
 			weapon.getStatMap(),
 			helmet.getStatMap(),
 			armour.getStatMap(),
 			necklace.getStatMap(),
 			ring.getStatMap(),
-			boots.getStatMap()
+			boots.getStatMap(),
+			getCompletedGearSetsStats()
 		)
-
-
-		getAppliedGearSets().forEach { (key, value) -> result.merge(key, value, BigDecimal::add) }
-
-
-
-
-
-
-		return result
-
-//		getCompleteGearSets().stream()
-//			.filter({ x -> x.getStat().isPresent() })
-//			.forEach { set ->
-//				(.getStatMap as java.util.Map<Stat, BigDecimal>).merge(
-//					set.getStat().get(),
-//					set.getValue().get(),
-//					BiFunction<BigDecimal, BigDecimal, BigDecimal> { obj, augend -> obj.add(augend) })
-//			}
-//
-//		return ImmutableMap.copyOf(.getStatMap)
 	}
 
-	fun getAppliedGearSets(): List<GearSet> {
-		println(getGearSetCount())
-		val list = getGearSetCount().flatMap { (set, count) ->
+	fun getCompletedGearSets(): List<GearSet> {
+		return getGearSetCount().flatMap { (set, count) ->
 			val total = count / set.amountForSet
 			if(total > 0) List(total) { set } else emptyList()
 		}
+	}
 
-		println(list.filter { it.stat.isPresent }.groupBy({ it.value.get() }, {})
-
-			return list
+	private fun getCompletedGearSetsStats(): Map<Stat, BigDecimal> {
+		val stats = mutableMapOf<Stat, BigDecimal>()
+		getCompletedGearSets()
+			.filter { set -> set.stat.isPresent }
+			.forEach { set ->
+				stats.merge(
+					set.stat.get(),
+					set.value.get(),
+					BigDecimal::add
+				)
+			}
+		return stats
 	}
 
 	private fun getGearSetCount(): Map<GearSet, Int> {

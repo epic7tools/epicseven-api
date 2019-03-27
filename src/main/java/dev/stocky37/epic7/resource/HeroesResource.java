@@ -1,8 +1,8 @@
 package dev.stocky37.epic7.resource;
 
 import dev.stocky37.epic7.core.HeroService;
+import dev.stocky37.epic7.json.EquipInput;
 import dev.stocky37.epic7.json.StatsJsonTransform;
-import dev.stocky37.epic7.repr.EquipInput;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
