@@ -1,5 +1,6 @@
 package dev.stocky37.epic7.core;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,6 +56,7 @@ public enum Stat {
 	}
 
 	// todo: if this is slow, change to map impl
+	@Nonnull
 	public static Stat fromId(String str) throws IllegalArgumentException {
 		return Arrays.stream(Stat.values())
 				.filter(stat -> stat.getId().equalsIgnoreCase(str))

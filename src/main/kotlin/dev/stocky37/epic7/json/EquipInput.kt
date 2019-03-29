@@ -1,12 +1,9 @@
 package dev.stocky37.epic7.json
 
 import dev.stocky37.epic7.core.GearSet
-import dev.stocky37.epic7.core.Stat
-import dev.stocky37.epic7.util.mergeStats
-import java.math.BigDecimal
+import dev.stocky37.epic7.core.Stats
 import javax.json.bind.annotation.JsonbCreator
 import javax.json.bind.annotation.JsonbProperty
-import javax.json.bind.annotation.JsonbTransient
 
 data class EquipInput @JsonbCreator constructor(
 	@JsonbProperty("level") val level: Int,
@@ -21,53 +18,45 @@ data class EquipInput @JsonbCreator constructor(
 	@JsonbProperty("boots") val boots: GearPiece
 ) {
 
-	@JsonbTransient
-	fun getGearStats(): Map<Stat, BigDecimal> {
-		return mergeStats(
-			artifact.getStatMap(),
-			weapon.getStatMap(),
-			helmet.getStatMap(),
-			armour.getStatMap(),
-			necklace.getStatMap(),
-			ring.getStatMap(),
-			boots.getStatMap(),
-			getCompletedGearSetsStats()
+	val gearStats: Stats by lazy {
+		Stats.from(
+			artifact.stats,
+			weapon.stats,
+			helmet.stats,
+			armour.stats,
+			necklace.stats,
+			ring.stats,
+			boots.stats,
+			gearSetStats
 		)
 	}
 
-	fun getCompletedGearSets(): List<GearSet> {
-		return getGearSetCount().flatMap { (set, count) ->
+	val completedGearSets: List<GearSet> by lazy {
+		gearSetCount.flatMap { (set, count) ->
 			val total = count / set.amountForSet
 			if(total > 0) List(total) { set } else emptyList()
 		}
 	}
 
-	private fun getCompletedGearSetsStats(): Map<Stat, BigDecimal> {
-		val stats = mutableMapOf<Stat, BigDecimal>()
-		getCompletedGearSets()
+	private val gearSetStats: Stats by lazy {
+		Stats.from(completedGearSets
 			.filter { set -> set.stat.isPresent }
-			.forEach { set ->
-				stats.merge(
-					set.stat.get(),
-					set.value.get(),
-					BigDecimal::add
-				)
-			}
-		return stats
+			.map { Pair(it.stat.get(), it.value.get()) }
+		)
 	}
 
-	private fun getGearSetCount(): Map<GearSet, Int> {
-		return getAllGearSets().groupingBy { it }.eachCount()
+	private val gearSetCount: Map<GearSet, Int> by lazy {
+		allGearSets.groupingBy { it }.eachCount()
 	}
 
-	private fun getAllGearSets(): List<GearSet> {
-		return listOfNotNull(
-			weapon.getGearSet(),
-			helmet.getGearSet(),
-			armour.getGearSet(),
-			necklace.getGearSet(),
-			ring.getGearSet(),
-			boots.getGearSet()
+	private val allGearSets: List<GearSet> by lazy {
+		listOfNotNull(
+			weapon.gearSet,
+			helmet.gearSet,
+			armour.gearSet,
+			necklace.gearSet,
+			ring.gearSet,
+			boots.gearSet
 		)
 	}
 }

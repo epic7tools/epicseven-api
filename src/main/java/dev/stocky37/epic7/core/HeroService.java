@@ -3,6 +3,7 @@ package dev.stocky37.epic7.core;
 import com.github.benmanes.caffeine.cache.AsyncCache;
 import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
 import dev.stocky37.epic7.json.EquipInput;
+import dev.stocky37.epic7.json.Hero;
 import dev.stocky37.epic7.json.StatsJsonTransform;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -40,20 +41,19 @@ public class HeroService {
 	}
 
 	public Map<Stat, BigDecimal> getAwakenedStats(final String id, int stars, int level, int awakening) {
-		return new HeroJsonWrapper(getHero(id), stars, level, awakening).getAwakenedBaseStats();
+		return getLevelledHero(id, stars, level, awakening).getAwakenedBaseStats();
 	}
 
-	public JsonObject equipHero(String id, EquipInput input) {
-		final HeroJsonWrapper hero = new HeroJsonWrapper(
-			getHero(id),
-			input.getStars(),
-			input.getLevel(),
-			input.getAwakening()
-		);
+	public JsonObject equipHero(String id, EquipInput in) {
+		final LevelledHero hero = getLevelledHero(id, in.getStars(), in.getLevel(), in.getAwakening());
 		return Json.createObjectBuilder()
-			.add("stats", stats(hero.calculateStats(input.getGearStats())))
-			.add("gearSets", sets(input.getCompletedGearSets()))
+			.add("stats", stats(hero.getAwakenedBaseStats().apply(in.getGearStats())))
+			.add("gearSets", sets(in.getCompletedGearSets()))
 			.build();
+	}
+
+	private LevelledHero getLevelledHero(final String id, int stars, int level, int awakening) {
+		return new LevelledHero(new Hero(getHero(id)), level, stars, awakening);
 	}
 
 	private JsonObject stats(Map<Stat, BigDecimal> stats) {

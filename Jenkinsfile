@@ -36,7 +36,7 @@ mavenNode {
       echo "Jenkinsfile.setup.groovy not found"
     }
 
-    echo 'NOTE: running pipelines for the first time will take longer as build and base docker images are pulled onto the node'
+    echo 'NOTE: running pipelines for the first time will take longer as build and isBase docker images are pulled onto the node'
     container(name: 'maven', shell:'/bin/bash') {
       stage('Build Image') {
         mavenCanaryRelease {
