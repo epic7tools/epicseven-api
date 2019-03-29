@@ -40,8 +40,8 @@ data class EquipInput @JsonbCreator constructor(
 
 	private val gearSetStats: Stats by lazy {
 		Stats.from(completedGearSets
-			.filter { set -> set.stat.isPresent }
-			.map { Pair(it.stat.get(), it.value.get()) }
+			.filter { set -> set.stat != null }
+			.map { Pair(it.stat!!, it.value!!) }
 		)
 	}
 

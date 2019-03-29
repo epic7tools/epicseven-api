@@ -44,8 +44,8 @@ data class Stats(private val stats: Map<Stat, BigDecimal> = mapOf()) : Map<Stat,
 		val totalStats = this.toMutableMap()
 		from.forEach { stat, value ->
 			run {
-				val newValue = if(stat.isBaseStat) value else stats.getOrDefault(stat.baseStat, BigDecimal.ZERO) * value
-				totalStats.merge(stat.baseStat, newValue) { a, b -> a + b }
+				val newValue = if(stat.isBaseStat) value else stats.getOrDefault(stat.getBaseStat(), BigDecimal.ZERO) * value
+				totalStats.merge(stat.getBaseStat(), newValue) { a, b -> a + b }
 			}
 		}
 		return Stats(totalStats)
