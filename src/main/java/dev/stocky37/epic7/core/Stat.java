@@ -44,22 +44,22 @@ public enum Stat {
 
 	public static List<Stat> getAllBaseStats() {
 		return Arrays.stream(Stat.values())
-				.filter(Stat::isBaseStat)
-				.collect(Collectors.toList());
+			.filter(Stat::isBaseStat)
+			.collect(Collectors.toList());
 	}
 
 	public static List<Stat> getAllGearStats() {
 		return Arrays.stream(Stat.values())
-				.filter(Stat::isAvailableOnGear)
-				.collect(Collectors.toList());
+			.filter(Stat::isAvailableOnGear)
+			.collect(Collectors.toList());
 	}
 
 	// todo: if this is slow, change to map impl
 	public static Stat fromId(String str) throws IllegalArgumentException {
 		return Arrays.stream(Stat.values())
-				.filter(stat -> stat.getId().equalsIgnoreCase(str))
-				.findAny()
-				.orElseThrow(IllegalArgumentException::new);
+			.filter(stat -> stat.getId().equalsIgnoreCase(str))
+			.findAny()
+			.orElseThrow(IllegalArgumentException::new);
 	}
 
 	public String getId() {

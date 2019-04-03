@@ -62,9 +62,9 @@ public class HeroJsonWrapper {
 					// AND the value is not an integer, assume that we are adding
 					// a percentage of the base stats
 					if(!stat.isPercentage() && value.stripTrailingZeros().scale() >= 1) {
-						newBaseStats.merge(stat, baseStats.get(stat).multiply(value), BigDecimal::add) ;
+						newBaseStats.merge(stat, baseStats.get(stat).multiply(value), BigDecimal::add);
 					} else {
-						newBaseStats.merge(stat, value, BigDecimal::add) ;
+						newBaseStats.merge(stat, value, BigDecimal::add);
 					}
 
 				});
