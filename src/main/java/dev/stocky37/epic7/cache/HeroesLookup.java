@@ -20,17 +20,19 @@ public class HeroesLookup implements Function<String, JsonArray> {
 
 	@Inject
 	@RestClient
+	@SuppressWarnings("CdiInjectionPointsInspection")
 	EpicSevenDbApi api;
 
 	@Override
 	public JsonArray apply(String s) {
 		final JsonArrayBuilder builder = Json.createArrayBuilder();
+
 		new Unwrapper()
-				.andThen(arr -> arr.getValuesAs(JsonObject.class))
-				.apply(api.getHeroes())
-				.stream()
-				.map(HeroTransform.getInstance())
-				.forEach(builder::add);
+			.andThen(arr -> arr.getValuesAs(JsonObject.class))
+			.apply(api.getHeroes())
+			.stream()
+			.map(HeroTransform.getInstance())
+			.forEach(builder::add);
 		return builder.build();
 	}
 }

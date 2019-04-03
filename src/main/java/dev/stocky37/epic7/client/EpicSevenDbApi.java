@@ -14,8 +14,6 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 @SuppressWarnings("CdiManagedBeanInconsistencyInspection")
 public interface EpicSevenDbApi {
-
-
 	@GET
 	@Path("/hero")
 	JsonObject getHeroes();

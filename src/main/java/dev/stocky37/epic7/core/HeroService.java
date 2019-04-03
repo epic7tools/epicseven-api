@@ -2,7 +2,9 @@ package dev.stocky37.epic7.core;
 
 import com.github.benmanes.caffeine.cache.AsyncCache;
 import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
-import dev.stocky37.epic7.json.StatsJsonTransform;
+import com.google.common.base.Converter;
+import dev.stocky37.epic7.json.Hero;
+import dev.stocky37.epic7.json.StatsJsonConverter;
 import dev.stocky37.epic7.repr.EquipInput;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -12,13 +14,14 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class HeroService {
+	private static final Converter<Stats, JsonObject> statsConverter = StatsJsonConverter.instance();
+
 	@Inject
 	@Named("cache.lists")
 	AsyncCache<String, JsonArray> listsCache;
@@ -35,34 +38,37 @@ public class HeroService {
 		return listsCache.synchronous().get("heroes", heroesLookup);
 	}
 
-	public JsonObject getHero(final String id) {
-		return heroCache.synchronous().get(id);
+	public Hero getHero(String id) {
+		return new Hero(heroCache.synchronous().get(id));
 	}
 
-	public Map<Stat, BigDecimal> getAwakenedStats(final String id, int stars, int level, int awakening) {
-		return new HeroJsonWrapper(getHero(id), stars, level, awakening).getAwakenedBaseStats();
+	public JsonObject getAwakenedStats(String id, int stars, int level, int awakening) {
+		return statsConverter.convert(getLevelledHero(id, stars, level, awakening).getAwakenedStats());
 	}
 
 	public JsonObject equipHero(String id, EquipInput input) {
-		final HeroJsonWrapper hero = new HeroJsonWrapper(
-			getHero(id),
+		final LevelledHero hero = getLevelledHero(
+			id,
 			input.stars(),
 			input.level(),
 			input.awakening()
 		);
 		return Json.createObjectBuilder()
-			.add("stats", stats(hero.calculateStats(input.getGearStats())))
-			.add("gearSets", sets(input.getCompleteGearSets()))
+			.add("stats", statsConverter.convert(hero.getAwakenedStats().apply(input.getGearStats())))
+			.add("gearSets", convertSetsToJson(input.getCompleteGearSets()))
 			.build();
 	}
 
-	private JsonObject stats(Map<Stat, BigDecimal> stats) {
-		return StatsJsonTransform.instance().apply(stats);
+	private LevelledHero getLevelledHero(String id, int stars, int level, int awakening) {
+		return ImmutableLevelledHero.builder()
+			.hero(getHero(id))
+			.stars(stars)
+			.level(level)
+			.awakening(awakening)
+			.build();
 	}
 
-	private JsonArray sets(List<GearSet> sets) {
-		final JsonArrayBuilder builder = Json.createArrayBuilder();
-		sets.forEach(set -> builder.add(set.getId()));
-		return builder.build();
+	private JsonArrayBuilder convertSetsToJson(List<GearSet> sets) {
+		return Json.createArrayBuilder(sets.stream().map(GearSet::getId).collect(Collectors.toList()));
 	}
 }
