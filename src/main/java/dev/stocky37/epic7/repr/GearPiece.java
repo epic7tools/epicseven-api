@@ -1,9 +1,8 @@
 package dev.stocky37.epic7.repr;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
 import dev.stocky37.epic7.core.GearSet;
-import dev.stocky37.epic7.core.Stat;
+import dev.stocky37.epic7.core.Stats;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.immutables.value.Value;
 
@@ -28,14 +27,14 @@ public abstract class GearPiece {
 	) {
 		return ImmutableGearPiece.builder()
 			.gearSet(Strings.isNullOrEmpty(set) ? Optional.empty() : Optional.of(GearSet.fromId(set)))
-			.stats(StatsFromMap.instance().apply(stats))
+			.stats(Stats.from(stats))
 			.build();
 	}
 
 	public abstract Optional<GearSet> gearSet();
 
 	@Value.Default
-	public Map<Stat, BigDecimal> stats() {
-		return ImmutableMap.of();
+	public Stats stats() {
+		return new Stats();
 	}
 }

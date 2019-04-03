@@ -19,7 +19,7 @@ import static dev.stocky37.epic7.core.Stat.SPD_PERC;
 
 public enum GearSet {
 	ATTACK("attack", "Attack Set", ATK_PERC, new BigDecimal("0.35"), 4),
-	CRITICAL	("critical", "Critical Set", CHC, new BigDecimal("0.12"), 2),
+	CRITICAL("critical", "Critical Set", CHC, new BigDecimal("0.12"), 2),
 	HEALTH("health", "Health Set", HP_PERC, new BigDecimal("0.15"), 2),
 	LIFESTEAL("lifesteal", "Lifesteal Set", LS, new BigDecimal("0.2"), 4),
 	HIT("hit", "Hit Set", EFF, new BigDecimal("0.2"), 2),
@@ -46,6 +46,14 @@ public enum GearSet {
 		this.amountForSet = amountForSet;
 	}
 
+	// todo: if this is slow, change to map impl
+	public static GearSet fromId(String str) throws IllegalArgumentException {
+		return Arrays.stream(GearSet.values())
+			.filter(gearset -> gearset.getId().equalsIgnoreCase(str))
+			.findAny()
+			.orElseThrow(IllegalArgumentException::new);
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -64,13 +72,5 @@ public enum GearSet {
 
 	public int getAmountForSet() {
 		return amountForSet;
-	}
-
-	// todo: if this is slow, change to map impl
-	public static GearSet fromId(String str) throws IllegalArgumentException {
-		return Arrays.stream(GearSet.values())
-				.filter(gearset -> gearset.getId().equalsIgnoreCase(str))
-				.findAny()
-				.orElseThrow(IllegalArgumentException::new);
 	}
 }

@@ -1,7 +1,6 @@
 package dev.stocky37.epic7.resource;
 
 import dev.stocky37.epic7.core.HeroService;
-import dev.stocky37.epic7.json.StatsJsonTransform;
 import dev.stocky37.epic7.repr.EquipInput;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -42,7 +41,7 @@ public class HeroesResource {
 		@QueryParam("level") @DefaultValue("0") int level,
 		@QueryParam("awakening") @DefaultValue("0") int awakening
 	) {
-		return StatsJsonTransform.instance().apply(service.getAwakenedStats(id, stars, level, awakening));
+		return service.getAwakenedStats(id, stars, level, awakening);
 	}
 
 	@POST

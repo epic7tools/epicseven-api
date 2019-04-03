@@ -17,17 +17,21 @@ public class CacheProvider {
 	@Inject
 	HeroCacheLoader cacheLoader;
 
-	@Produces @ApplicationScoped @Named("cache.hero")
+	@Produces
+	@ApplicationScoped
+	@Named("cache.hero")
 	AsyncLoadingCache<String, JsonObject> provideCache() {
 		return Caffeine.newBuilder()
-				.expireAfterWrite(Duration.ofHours(2))
-				.buildAsync(cacheLoader);
+			.expireAfterWrite(Duration.ofHours(2))
+			.buildAsync(cacheLoader);
 	}
 
-	@Produces @ApplicationScoped @Named("cache.lists")
+	@Produces
+	@ApplicationScoped
+	@Named("cache.lists")
 	AsyncCache<String, JsonArray> provideApiListsCache() {
 		return Caffeine.newBuilder()
-				.expireAfterWrite(Duration.ofHours(2))
-				.buildAsync();
+			.expireAfterWrite(Duration.ofHours(2))
+			.buildAsync();
 	}
 }

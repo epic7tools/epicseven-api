@@ -2,6 +2,7 @@ package dev.stocky37.epic7.repr;
 
 import com.google.common.collect.ImmutableMap;
 import dev.stocky37.epic7.core.Stat;
+import dev.stocky37.epic7.core.Stats;
 import org.immutables.value.Value;
 
 import javax.json.bind.annotation.JsonbCreator;
@@ -17,7 +18,7 @@ public abstract class ArtifactStats {
 	//       see: https://github.com/eclipse-ee4j/yasson/issues/230
 	@JsonbCreator
 	public static ArtifactStats create(@JsonbProperty("stats") Map<String, BigDecimal> stats) {
-		return ImmutableArtifactStats.builder().stats(StatsFromMap.instance().apply(stats)).build();
+		return ImmutableArtifactStats.builder().stats(Stats.from(stats)).build();
 	}
 
 	@Value.Default

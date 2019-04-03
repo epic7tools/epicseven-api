@@ -14,6 +14,7 @@ public class HeroCacheLoader extends EpicSevenDbCacheLoader {
 
 	@Inject
 	@RestClient
+	@SuppressWarnings("CdiInjectionPointsInspection")
 	EpicSevenDbApi api;
 
 	public HeroCacheLoader() {

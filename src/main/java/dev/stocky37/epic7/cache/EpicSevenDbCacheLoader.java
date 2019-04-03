@@ -8,7 +8,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import javax.json.JsonObject;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.util.function.Function;
 
 public abstract class EpicSevenDbCacheLoader implements CacheLoader<String, JsonObject> {
@@ -21,7 +20,7 @@ public abstract class EpicSevenDbCacheLoader implements CacheLoader<String, Json
 		this(NOOP);
 	}
 
-	public EpicSevenDbCacheLoader(Function<JsonObject, JsonObject> transformer) {
+	protected EpicSevenDbCacheLoader(Function<JsonObject, JsonObject> transformer) {
 		this.transformer = transformer;
 	}
 
@@ -30,12 +29,12 @@ public abstract class EpicSevenDbCacheLoader implements CacheLoader<String, Json
 	public JsonObject load(@NonNull String key) throws Exception {
 		try {
 			return new Unwrapper()
-					.andThen(arr -> arr.getJsonObject(0))
-					.andThen(transformer)
-					.apply(loadFromApi(key));
-		} catch(WebApplicationException e) {
+				.andThen(arr -> arr.getJsonObject(0))
+				.andThen(transformer)
+				.apply(loadFromApi(key));
+		} catch (WebApplicationException e) {
 			if(e.getResponse().getStatus() == 418) {
-				throw new NotFoundException();
+				throw new NotFoundException(e.getResponse());
 			} else {
 				throw e;
 			}

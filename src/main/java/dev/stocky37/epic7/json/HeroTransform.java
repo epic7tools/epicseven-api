@@ -7,20 +7,20 @@ import java.util.function.Function;
 
 public class HeroTransform implements Function<JsonObject, JsonObject> {
 
-  private static HeroTransform instance = new HeroTransform();
+	private static HeroTransform instance = new HeroTransform();
 
-  public static HeroTransform getInstance() {
-    return instance;
-  }
+	private HeroTransform() {}
 
-  private HeroTransform() {}
+	public static HeroTransform getInstance() {
+		return instance;
+	}
 
-  @Override
-  public JsonObject apply(JsonObject original) {
-    return Json.createObjectBuilder(original)
-        .add("id", original.getJsonString("fileId"))
-        .remove("_id")
-        .remove("fileId")
-        .build();
-  }
+	@Override
+	public JsonObject apply(JsonObject original) {
+		return Json.createObjectBuilder(original)
+			.add("id", original.getJsonString("fileId"))
+			.remove("_id")
+			.remove("fileId")
+			.build();
+	}
 }
