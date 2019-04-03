@@ -1,28 +1,27 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>dev.stocky37.epic7</groupId>
   <artifactId>epicseven-tools-api</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <properties>
     <heroku.appName>epicseven-tools-api</heroku.appName>
-    <heroku-plugin.version>2.0.7</heroku-plugin.version>
-    <surefire-plugin.version>2.22.0</surefire-plugin.version>
-    <quarkus.version>0.12.0</quarkus.version>
     <maven.compiler.source>1.8</maven.compiler.source>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <caffeine.version>2.7.0</caffeine.version>
-    <guava.version>27.0.1-jre</guava.version>
-    <immutables.version>2.7.4</immutables.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <version.caffeine>2.7.0</version.caffeine>
+    <version.guava>27.0.1-jre</version.guava>
+    <version.heroku-plugin>2.0.7</version.heroku-plugin>
+    <version.immutables>2.7.4</version.immutables>
+    <version.quarkus>0.12.0</version.quarkus>
+    <version.surefire-plugin>2.22.0</version.surefire-plugin>
   </properties>
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-bom</artifactId>
-        <version>${quarkus.version}</version>
+        <version>${version.quarkus}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -52,17 +51,17 @@
     <dependency>
       <groupId>com.github.ben-manes.caffeine</groupId>
       <artifactId>caffeine</artifactId>
-      <version>${caffeine.version}</version>
+      <version>${version.caffeine}</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
+      <version>${version.guava}</version>
     </dependency>
     <dependency>
       <groupId>org.immutables</groupId>
       <artifactId>value</artifactId>
-      <version>${immutables.version}</version>
+      <version>${version.immutables}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -76,7 +75,7 @@
       <plugin>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
-        <version>${quarkus.version}</version>
+        <version>${version.quarkus}</version>
         <executions>
           <execution>
             <goals>
@@ -87,7 +86,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${surefire-plugin.version}</version>
+        <version>${version.surefire-plugin}</version>
         <configuration>
           <systemProperties>
             <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
@@ -97,12 +96,32 @@
       <plugin>
         <groupId>com.heroku.sdk</groupId>
         <artifactId>heroku-maven-plugin</artifactId>
-        <version>${heroku-plugin.version}</version>
+        <version>${version.heroku-plugin}</version>
         <configuration>
           <appName>${heroku.appName}</appName>
           <processTypes>
             <web>java $JAVA_OPTS -Dquarkus.http.host=$HOST -Dquarkus.http.port=$PORT -jar target/${project.artifactId}-${project.version}-runner.jar</web>
           </processTypes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.github.ekryd.sortpom</groupId>
+        <artifactId>sortpom-maven-plugin</artifactId>
+        <version>2.10.0</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>sort</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <lineSeparator>\n</lineSeparator>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <sortProperties>true</sortProperties>
+          <keepBlankLines>true</keepBlankLines>
+          <sortDependencies>scope</sortDependencies>
         </configuration>
       </plugin>
     </plugins>
@@ -120,7 +139,7 @@
           <plugin>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-maven-plugin</artifactId>
-            <version>${quarkus.version}</version>
+            <version>${version.quarkus}</version>
             <executions>
               <execution>
                 <goals>
@@ -134,7 +153,7 @@
           </plugin>
           <plugin>
             <artifactId>maven-failsafe-plugin</artifactId>
-            <version>${surefire-plugin.version}</version>
+            <version>${version.surefire-plugin}</version>
             <executions>
               <execution>
                 <goals>
