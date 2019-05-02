@@ -13,7 +13,7 @@
     <version.guava>27.0.1-jre</version.guava>
     <version.heroku-plugin>2.0.7</version.heroku-plugin>
     <version.immutables>2.7.4</version.immutables>
-    <version.quarkus>0.13.1</version.quarkus>
+    <version.quarkus>0.14.0</version.quarkus>
     <version.surefire-plugin>2.22.0</version.surefire-plugin>
   </properties>
   <dependencyManagement>
